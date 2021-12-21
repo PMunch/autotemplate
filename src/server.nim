@@ -4,7 +4,7 @@ type
   Information = object
     test: string
 
-loadTemplates("templates")
+loadTemplates("src/templates")
 
 routes:
   get "/":

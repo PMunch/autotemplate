@@ -22,8 +22,9 @@ macro loadTemplates*(path: static[string]): untyped =
             newStrLitNode(content))
         result.add quote do:
           const `rawIdent`* = `content`
-          when isType(`typeIdent`):
-            proc toHtml*(x: `typeIdent`): string =
-              with x:
-                tmpli `templateString`
-
+          when declared(`typeIdent`):
+            when isType(`typeIdent`):
+              echo "Defining"
+              proc toHtml*(x: `typeIdent`): string =
+                with x:
+                  tmpli `templateString`
