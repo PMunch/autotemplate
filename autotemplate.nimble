@@ -12,5 +12,5 @@ bin           = @["./server"]
 
 requires "nim >= 1.6.0"
 requires "jester"
-requires "with"
+requires "with >= 0.4.0"
 requires "templates"
