@@ -7,6 +7,7 @@ type
     info: Something
   Something = string
   InfoTuple = tuple[snippetId: int, info: Information]
+  TestSeq = seq[string]
 
 # We can also specify custom `to` procedures. Note that these won't be detected
 # by the `to` procedure, but they will automatically be invoked by any type
@@ -37,4 +38,7 @@ routes:
     # that the logic for generating the info object is always the same, we just
     # format the object differently.
     resp info.to(request.matches[0])
-
+  get "/testseq":
+    # In order to have templates for built-in data structures or other things
+    # like that you need to create a type alias:
+    resp TestSeq(@["Hello", "world"]).toHtml
