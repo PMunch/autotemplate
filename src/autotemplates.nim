@@ -37,7 +37,7 @@
 ##
 ## For a more in-depth example have a look at ``examples/server.nim``
 
-import macros, os, with, templates, strutils, tables
+import macros, os, with, templates, strutils, tables, sets
 
 var typeMapping {.compileTime.}: Table[string, seq[tuple[tmpl: string, prc: NimNode]]]
 
@@ -65,6 +65,7 @@ proc to*(x: auto, kind: string): string =
   bind toMacro
   toMacro(x, kind)
 
+var defs {.compileTime.}: HashSet[string]
 macro generateTemplate(typedef: typed, toIdent, argument: untyped, templateString: string, filetype, filename: static[string]) =
   let typeImpl = typedef.getImpl
   typeMapping.mgetOrPut(typedef.getType[1].repr, @[]).add (filetype, toIdent)
@@ -78,6 +79,8 @@ macro generateTemplate(typedef: typed, toIdent, argument: untyped, templateStrin
           else:
             $x)
       for identDef in identDefs:
+        if identDef.repr in defs: break
+        defs.incl identDef.repr
         let
           def = identDef[1]
           dollar = newIdentNode("$")
