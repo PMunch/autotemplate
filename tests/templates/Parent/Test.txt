@@ -1,0 +1,5 @@
+This is a field: $field
+This should trigger an error: nonexistant
+This is the inner object: $field2
+$kind
+$kind2
